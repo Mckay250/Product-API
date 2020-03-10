@@ -1,19 +1,73 @@
 package com.decema.myCommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table
 public class Product {
-    private final UUID id;
-    private final String name;
-    private final String category;
-    private final int price;
-    private final int rating;
-    private final String imgUrl;
-    private final String description;
+    @Id
+    @GeneratedValue
+    private Integer id;
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String category;
+    @NotBlank
+    private Integer price;
+    @NotBlank
+    private Integer rating;
+    @NotBlank
+    private String imgUrl;
+    @NotBlank
+    private String description;
+    @NotBlank
+    private Boolean onSale;
 
-    public UUID getId() {
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOnSale(Boolean onSale) {
+        this.onSale = onSale;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -25,11 +79,11 @@ public class Product {
         return category;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
@@ -41,19 +95,7 @@ public class Product {
         return description;
     }
 
-    public Product(@JsonProperty("id") UUID id,
-                   @JsonProperty("name")String name,
-                   @JsonProperty("category")String category,
-                   @JsonProperty("price")int price,
-                   @JsonProperty("rating")int rating,
-                   @JsonProperty("imgUrl")String imgUrl,
-                   @JsonProperty("description")String description) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.price = price;
-        this.rating = rating;
-        this.imgUrl = imgUrl;
-        this.description = description;
+    public Boolean getOnSale() {
+        return onSale;
     }
 }

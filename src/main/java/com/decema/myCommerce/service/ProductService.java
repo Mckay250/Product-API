@@ -6,26 +6,18 @@ import com.decema.myCommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    // private final ProductDao productDao;
     @Autowired
     private ProductRepository repository;
 
-    // @Autowired
-    // public ProductService(@Qualifier("fakeDao") ProductDao productDao) {
-    //     this.productDao = productDao;
-    // }
-
-    public Product addProduct(Product product) {
-        return repository.save(product);
-    }
-
-    public List<Product> addProducts(List<Product> products) {
-        return repository.saveAll(products);
+    public String addProduct(Product product) {
+        repository.save(product);
+        return "Product Added";
     }
 
     public List<Product> getAllProducts() {
@@ -36,8 +28,21 @@ public class ProductService {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Product> getProductByCategory(String category) {
-        return repository.findAllByCategory(category);
+    public List<Product> getProductByName(String name) {
+        return new ArrayList<>(repository.findByName(name));
+    }
+
+    public List<Product> findProductByName(String name) {
+        return new ArrayList<>(repository.findByNameContaining(name));
+    }
+
+    public List<Product> getProductByCategory(String name) {
+        //        products = repository.findAllByCategoryName(name);
+        return new ArrayList<>(repository.findByCategoryName(name));
+    }
+
+    public List<Product> getProductByOnSale(boolean onSale) {
+        return repository.findByOnSale(onSale);
     }
 
     public String deleteProduct(Integer id) {

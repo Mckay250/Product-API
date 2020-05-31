@@ -1,69 +1,54 @@
 package com.decema.myCommerce.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
-@Table
-public class Product {
+@Table(name = "products")
+//@EntityListeners(AuditingEntityListener.class)
+//@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+//allowGetters = true)
+public class Product implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank
     private String name;
-    @NotBlank
-    private String category;
-    @NotBlank
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+    @NotNull
     private Integer price;
-    @NotBlank
     private Integer rating;
     @NotBlank
     private String imgUrl;
     @NotBlank
     private String description;
-    @NotBlank
+    @NotNull
     private Boolean onSale;
 
+    public Product() {
+    }
 
-    public void setId(Integer id) {
+    public Product(Integer id, @NotBlank String name, Category category, @NotNull Integer price, @NotNull Integer rating, @NotBlank String imgUrl, @NotBlank String description, @NotNull Boolean onSale) {
         this.id = id;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setPrice(Integer price) {
         this.price = price;
-    }
-
-    public void setRating(Integer rating) {
         this.rating = rating;
-    }
-
-    public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
     }
 
@@ -71,31 +56,63 @@ public class Product {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getCategory() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Integer getPrice() {
         return price;
     }
 
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public Integer getRating() {
         return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public String getImgUrl() {
         return imgUrl;
     }
 
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Boolean getOnSale() {
         return onSale;
+    }
+
+    public void setOnSale(Boolean onSale) {
+        this.onSale = onSale;
     }
 }
